@@ -136,11 +136,11 @@ csvAnalysis = function(dir,filename){
 
 #USAGE 
 # Define and run variable "dir" as the directory path that holds the files to be converted
-# Define and run variable "file" as the file within dir to be 
+# Define and run variable "filename" as the file within dir to be 
 # EXAMPLE: Run an analysis on the compiled data after having run the CSVMerge function
 # dir = ":C/User/ikemu/Downloads/Rproject"
 # filename = "allDataTest.csv"
-# Run "CSVAnalysis(dir,file)"
+# Run "CSVAnalysis(dir,filename)"
 
 
   
