@@ -30,9 +30,24 @@ dir <-
 filename <-  "allData.csv"
 csvAnalysis(dir,filename) #This will return a summary table of 3a - 3d
 
-## FUNCTION 4
+## FUNCTION 4 (Question 1)
+# This function creates a graph of the number of infections per day for country x and country y
+# USAGE
+# Define and run variable "dir" as the directory path that holds the file to run analysis on
+# Define and run variable "filename" as the file within dir to have analysis ran on
+# EXAMPLE: Run an analysis on the compiled data after having run the csvMerge function
+# dir = ":C/User/ikemu/Downloads/Rproject"
+# filename = "allDataTest.csv"
+# Run csvAnalysis2(dir,filename)
 
+dir = ":C/User/ikemu/Downloads/Rproject"
+filename = "allData.csv"
+csvAnalysis2(dir,filename)
 
+# Explanation
+# The disease outbreak most likely began in country x because they had positive
+# cases from day 120 while country y did not show signs of infection until day 
+# 139 as can be seen from the graph.
 
 ## FUNCTION 5 (Question 2)
 # This function compiles two bar graphs for two countries to show variation 
@@ -42,7 +57,7 @@ dir <-
 file <- "allData.csv"
 markerVariation("allData.csv") #This will return the graph for both countries
 
-#Explanation
+# Explanation
 #   If Country Y develops a vaccine for the disease, it is likely it would not
 # work for country X. From the graph- SummaryPlot- one can see that those in 
 # country X test positive for mostly markers 1 - 5. On the other hand, country
