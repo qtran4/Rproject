@@ -22,8 +22,8 @@ csvConvert <- function(dir){
 # Run "csvConvert(dir)"
 
 #EXAMPLE: convert and remove .txt files in "countryY" directory
-dir <- "/Users/bethoceguera/Documents/PhD Year 1/First Semester/Introduction to Biocomputing/Rproject/countryY" 
-csvConvert(dir)
+# dir <- "/Users/bethoceguera/Documents/PhD Year 1/First Semester/Introduction to Biocomputing/Rproject/countryY" 
+# csvConvert(dir)
 
 
 ##FUNCTION 2
@@ -74,9 +74,9 @@ csvMerge<-function(dir,naChoice){
 # Run "csvMerge(dir,naChoice)"
 
 #EXAMPLE: Append all .csv files within the RProject directory (Recursive)
-dir <- "/Users/bethoceguera/Documents/PhD Year 1/First Semester/Introduction to Biocomputing/Rproject"
-naChoice <- 1
-csvMerge(dir,naChoice)
+# dir <- "/Users/bethoceguera/Documents/PhD Year 1/First Semester/Introduction to Biocomputing/Rproject"
+# naChoice <- 1
+# csvMerge(dir,naChoice)
 
 
 ##FUNCTION 3
