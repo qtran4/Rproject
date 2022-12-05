@@ -198,7 +198,7 @@ csvAnalysis2 = function(dir, filename){
   
   ## Plot
   ggplot(combined_data, aes(time_vec)) + geom_line(aes(y=x_vec), color = "black") + geom_line(aes(y=y_vec), color = "blue") + xlab("Day of Year") +ylab("Number of Infections") + xlim(120,181) + ggtitle("Infections Per Day for Country X and Country Y")
-  # The black line is country x infections and the blue line is country y infections
+  print("The black line is country x infections per day and the blue line is country y infections per day")
 }
 
 
