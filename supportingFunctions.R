@@ -95,21 +95,24 @@ CSVAnalysis = function(dir,filename){
   
   ## Number of screens run
   screenstotal = nrow(AllData) # The number of screens is equal to the number of rows in the compiled data
-  cat("The number of screens is equal to", screenstotal)
+  Answer_1a = "The number of screens is equal to"
+  Answer_1 = paste(Answer_1a,screenstotal, collapse = ":")
   
   ## Male vs Female
   malecount = nrow(AllData[AllData$gender == "male",]) # Finding the number of males that were screened
   femalecount = nrow(AllData[AllData$gender == "female",]) # Finding the number of females that were screened
-  cat("The number of males screened was", malecount)
-  cat("The number of females screened was", femalecount)
+  Answer_2a = "The number of males screened was"
+  Answer_2b = "and the number of females screened was"
+  Answer_2 = paste(Answer_2a,malecount,Answer_2b,femalecount, sep = " ")
   
   ## Age distribution
   # A histogram is a good way to look at age distribution for both countries 
   Age = AllData$age
   h=hist(Age, breaks = 50, xlim = c(0,100), ylim = c(0,26000), main = "Hisogram of Age Distribution From Screened Population")
   text(h$mids,h$counts,labels=h$counts, adj=c(0.5, -0.5))
-  print("Any age over 100 is not represented in this graph, but they make up 178 data points")
-  ### Based on this, it appears that the infection is effecting mostly people between the ages of 0-10
+  Answer_3a = "Any age over 100 is not represented in this graph, but they make up 178 data points." 
+  Answer_3b = "However, based on this graph, it appears that the infection is effecting mostly people between the ages of 0-10"
+  Answer_3 = paste(Answer_3a, Answer_3b)
   
   ## Percent of people infected
   infectedcounter = 0
@@ -122,7 +125,11 @@ CSVAnalysis = function(dir,filename){
     }
   }
   percentinfected = (infectedcounter/screenstotal)*100
-  cat("The percentage of infected people was",percentinfected,"percent")
+  Answer_4a = "The percentage of infected people was"
+  Answer_4b = "percent"
+  Answer_4 = paste(Answer_4a, percentinfected, Answer_4b)
+  Answer_list = list(Answer_1, Answer_2, Answer_3, Answer_4)
+  return(Answer_list)
 }
 
 #USAGE 
