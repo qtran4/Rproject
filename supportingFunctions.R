@@ -82,12 +82,56 @@ csvMerge(dir,naChoice)
 ##FUNCTION 3
 # Function to summarize the compiled data set in terms of 
 #   3a. Number of screens run
-#   3b. Percent of patients screened that were infected
-#   3c. Male vs. female patients
-#   3d. Age distribution of patients
+#   3b. Male vs. female patients
+#   3c. Age distribution of patients
+#   3d. Percent of patients screened that were infected
 
+CSVAnalysis = function(dir,filename){
+  ## set working directory
+  setwd(dir)
+  
+  ## load compiled data
+  AllData = read.csv(filename)
+  
+  ## Number of screens run
+  screenstotal = nrow(AllData) # The number of screens is equal to the number of rows in the compiled data
+  cat("The number of screens is equal to", screenstotal)
+  
+  ## Male vs Female
+  malecount = nrow(AllData[AllData$gender == "male",]) # Finding the number of males that were screened
+  femalecount = nrow(AllData[AllData$gender == "female",]) # Finding the number of females that were screened
+  cat("The number of males screened was", malecount)
+  cat("The number of females screened was", femalecount)
+  
+  ## Age distribution
+  # A histogram is a good way to look at age distribution for both countries 
+  Age = AllData$age
+  h=hist(Age, breaks = 50, xlim = c(0,100), ylim = c(0,26000), main = "Hisogram of Age Distribution From Screened Population")
+  text(h$mids,h$counts,labels=h$counts, adj=c(0.5, -0.5))
+  print("Any age over 100 is not represented in this graph, but they make up 178 data points")
+  ### Based on this, it appears that the infection is effecting mostly people between the ages of 0-10
+  
+  ## Percent of people infected
+  infectedcounter = 0
+  for(i in 1:nrow(AllData)){
+    for(j in 1:ncol(AllData)){
+      if(AllData[i,j] == 1){
+        infectedcounter = infectedcounter + 1
+        break
+      } 
+    }
+  }
+  percentinfected = (infectedcounter/screenstotal)*100
+  cat("The percentage of infected people was",percentinfected,"percent")
+}
 
-
+#USAGE 
+# Define and run variable "dir" as the directory path that holds the files to be converted
+# Define and run variable "file" as the file within dir to be 
+# EXAMPLE: Run an analysis on the compiled data after having run the CSVMerge function
+# dir = ":C/User/ikemu/Downloads/Rproject"
+# filename = "allDataTest.csv"
+# Run "CSVAnalysis(dir,file)"
 
 
   
