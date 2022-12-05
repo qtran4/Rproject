@@ -135,12 +135,80 @@ csvAnalysis = function(dir,filename){
 }
 
 #USAGE 
-# Define and run variable "dir" as the directory path that holds the files to be converted
-# Define and run variable "filename" as the file within dir to be 
-# EXAMPLE: Run an analysis on the compiled data after having run the CSVMerge function
+# Define and run variable "dir" as the directory path that holds the file to run analysis on
+# Define and run variable "filename" as the file within dir to have analysis ran on
+# EXAMPLE: Run an analysis on the compiled data after having run the csvMerge function
 # dir = ":C/User/ikemu/Downloads/Rproject"
 # filename = "allDataTest.csv"
-# Run "CSVAnalysis(dir,filename)"
+# Run "csvAnalysis(dir,filename)"
+
+##FUNCTION 4
+# Function to create a time graph of infection for country X and country Y
+
+csvAnalysis2 = function(dir, filename){
+  # Load Data and subset into country specific data
+  AllData = read.csv(filename)
+  file_x = subset(AllData, country == "X")
+  file_y = subset(AllData, country == "Y")
+  
+  # Subset country data into infected files
+  infectedXfile = file_x[which(file_x$marker01 == 1 | file_x$marker02 == 1 | file_x$marker03 == 1 | file_x$marker04 == 1 | file_x$marker05 == 1 | file_x$marker06 == 1 | file_x$marker07 == 1 | file_x$marker08 == 1 | file_x$marker09 == 1 | file_x$marker10 == 1),]
+  infectedyfile = file_y[which(file_y$marker01 == 1 | file_y$marker02 == 1 | file_y$marker03 == 1 | file_y$marker04 == 1 | file_y$marker05 == 1 | file_y$marker06 == 1 | file_y$marker07 == 1 | file_y$marker08 == 1 | file_y$marker09 == 1 | file_y$marker10 == 1),]
+  
+  # Create vectors to be iterated over
+  ## Time Vector
+  LargestTime = max(AllData$dayofYear)
+  SmallestTime = min(AllData$dayofYear)
+  DiffTime = LargestTime - SmallestTime
+  time_vec = 1:(DiffTime +1)
+  
+  ## Country X vector
+  x_vec = 1:(DiffTime +1)
+  
+  ## Country Y vector 
+  y_vec = 1:(DiffTime +1)
+  
+  # For loops for vectors to be plotted
+  ## Time Vector
+  time_vec[1] = SmallestTime
+  for(i in 2:length(time_vec)){
+    time_vec[i] = time_vec[i-1] + 1
+  }
+  
+  ## Country X for loop
+  dayX = 120
+  for(i in 1:length(x_vec)){
+    x_vec[i] = nrow(infectedXfile[infectedXfile$dayofYear == dayX,])
+    dayX = dayX + 1
+  }
+
+  ## Country Y for loop
+  dayY = 120
+  for(i in 1:length(y_vec)){
+    y_vec[i] = nrow(infectedyfile[infectedyfile$dayofYear == dayY,])
+    dayY = dayY + 1
+  }
+  
+  # Making data frame 
+  combined_data = data.frame(time_vec, x_vec, y_vec)
+  
+  # Plotting data to show infection over time for country x and country y
+  ## loading ggplot2
+  library(ggplot2)
+  
+  ## Plot
+  ggplot(combined_data, aes(time_vec)) + geom_line(aes(y=x_vec), color = "black") + geom_line(aes(y=y_vec), color = "blue") + xlab("Day of Year") +ylab("Number of Infections") + xlim(120,181) + ggtitle("Infections Per Day for Country X and Country Y")
+  # The black line is country x infections and the blue line is country y infections
+}
+
+
+#USAGE
+# Define and run variable "dir" as the directory path that holds the file to run analysis on
+# Define and run variable "filename" as the file within dir to have analysis ran on
+# EXAMPLE: Run an analysis on the compiled data after having run the csvMerge function
+# dir = ":C/User/ikemu/Downloads/Rproject"
+# filename = "allDataTest.csv"
+# Run "csvAnalysis2(dir,filename)"
 
 
   
