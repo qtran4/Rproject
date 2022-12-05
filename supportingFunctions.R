@@ -15,6 +15,7 @@ csvConvert <- function(dir){
   write.table(data, file=output, sep=",", col.names=TRUE, row.names=FALSE)
   file.remove(input)  
   }
+  print("Files have been converted to .csv")
 }
 
 #USAGE 
@@ -63,6 +64,7 @@ csvMerge<-function(dir,naChoice){
   }
   header<-(header[-1,])  
   write.csv(header,file = "allDataTest.csv")
+  print("Country X and Y files have been combined to a master file called allDataTest.csv")
 }
 
 #USAGE 
@@ -86,7 +88,7 @@ csvMerge<-function(dir,naChoice){
 #   3c. Age distribution of patients
 #   3d. Percent of patients screened that were infected
 
-CSVAnalysis = function(dir,filename){
+csvAnalysis = function(dir,filename){
   ## set working directory
   setwd(dir)
   
