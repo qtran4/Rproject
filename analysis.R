@@ -10,16 +10,11 @@ for (i in 120:175){
   makeCSV(filename = paste("countryY/screen_",i,".txt",sep=""),delimeter = " ",
           fileOutname = paste("countryY/screen_",i,sep=""))
 }
-colsList <- list("gender","age","marker01","marker02","marker03","marker04",
-                 "marker05","marker06","marker07","marker08","marker09","marker10",
-                 "country","dayofYear")
-bigDF <- matrix(data=NA,nrow=0,ncol=14)
-colnames(bigDF) = colsList
-for(i in 120:175){
-  bigDF <- combineCSVs(filename=paste("countryX/screen_",i,".csv",sep=""),outputObj=bigDF,
-          country="x",day=i)
-  bigDF <- combineCSVs(filename=paste("countryY/screen_",i,".csv",sep=""),outputObj=bigDF,
-          country="y",day=i)
-}
+
+#making giant data frame of screening data from both countries
+countryX.df <- combineCSVs(directoryname = "countryX/", country="X",na_handling = "remove")
+countryY.df <- combineCSVs(directoryname = "countryY/", country="Y",na_handling = "remove")
+
+allData.df <- rbind(countryX.df,countryY.df)
 
 
