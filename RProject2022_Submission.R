@@ -8,44 +8,67 @@
 
 
 #.txt -> .csv substitute
-dir.create ("/Users/avivalund/Desktop/Biocomputing/Final Project/RProject/done/")
-setwd("/Users/avivalund/Desktop/Biocomputing/Final Project/RProject/countryY")
+dir.create ("/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/csvlist_Y/")
+setwd("/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/countryY")
 filelist = list.files(pattern = ".txt")
 for (i in 1:length(filelist)){
   input<-filelist[i]
   output<-gsub("txt","csv",input)
-  data = read.delim(input, header = TRUE)   
-  setwd("/Users/avivalund/Desktop/Biocomputing/Final Project/RProject/done/")
-  write.table(data, file=output, sep=",", col.names=TRUE, row.names=FALSE)
-  setwd("/Users/avivalund/Desktop/Biocomputing/Final Project/RProject/countryY")
+  data = read.table(input, header = TRUE)   
+  setwd("/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/csvlist_Y/")
+  write.csv(data, file=output, row.names=FALSE)
+  setwd("/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/countryY")
   
 }
-#compile once or twice
-#country x: for loop!
-x-> <matrix of 1-8>
-y-> <another matrix of 10-17>
-z->rbind(x,y)
-z-> <1 through 17
+
+
 # compile data from all .csv files in a directory into a single .csv file
 #same columns, also add "country" and "dayofYear" columns.
 #user should be able to remove NA rows, include NA rows but be warned, 
 #or include NAs without warning
 
-$# countryX for loop 
-csvlistX <- list.files(pattern = ".csv")
-(for i in 1:length(csvlistX)){
-  rbind()
-}
+### countryX for loop
+setwd("/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/countryX/")
 
+# list the files in country X directory and assign to csvlist_X vector
+csvlist_X <- list.files(pattern = ".csv")
 
+# add two columns to first csv file 
+inputX<-read.csv(csvlist_X[1])
+inputX$country <- "X" 
+inputX$dayofYear <- as.numeric(substr(csvlist_X[1], 8, 10))
 
+# do a for loop for the rest of the files and combine with rbind
+for (i in 2:length(csvlist_X)){
+  input<-read.csv(csvlist_X[i])
+  input$country <- "X" 
+  input$dayofYear <- as.numeric(substr(csvlist_X[i], 8, 10)) 
+  inputX<-rbind(inputX, input)
+}  
+  
+###countryY for loop
+setwd("/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/csvlist_Y/")
 
-<-rbind()
-countryY <-
-#for loop
-compiledcsvfiles <- rbind(countryX, countryY)
-          lapply(list.files(path = "/Users/avivalund/Desktop/Biocomputing/Final 
-                            Project/RProject/done/"), read.csv))
+# list the files in country X directory and assign to csvlist_X vector
+csvlistY <- list.files(pattern = ".csv")
+
+# add two columns to first csv file 
+inputY<-read.csv(csvlistY[1])
+inputY$country <- "Y" 
+inputY$dayofYear <- as.numeric(substr(csvlistY[1], 8, 10))
+
+# do a for loop for the rest of the files and combine with rbind
+for (i in 2:length(csvlistY)){
+  Yinput<-read.csv(csvlistY[i])
+  Yinput$country <- "Y" 
+  Yinput$dayofYear <- as.numeric(substr(csvlistY[i], 8, 10)) 
+  inputY<-rbind(inputY, Yinput)
+}  
+
+### Combine x and y csv lists
+allData.csv<-rbind(inputY, inputX)
+setwd("/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/")
+write.csv(allData.csv, "allData.csv", row.names = F)
 
 
 
