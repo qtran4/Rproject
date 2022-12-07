@@ -45,7 +45,7 @@ for (i in 2:length(csvlist_X)){
   input$dayofYear <- as.numeric(substr(csvlist_X[i], 8, 10)) 
   inputX<-rbind(inputX, input)
 }  
-  
+
 ###countryY for loop
 setwd("/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/csvlist_Y/")
 
