@@ -27,62 +27,46 @@ for (i in 1:length(filelist)){
 #user should be able to remove NA rows, include NA rows but be warned, 
 #or include NAs without warning
 
-### countryX for loop
-setwd("/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/countryX/")
+#Path directory
+setwd("/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/")
 
-# list the files in country X directory and assign to csvlist_X vector
-csvlist_X <- list.files(pattern = ".csv")
-
-# add two columns to first csv file 
-inputX<-read.csv(csvlist_X[1])
-inputX$country <- "X" 
-inputX$dayofYear <- as.numeric(substr(csvlist_X[1], 8, 10))
-
-# do a for loop for the rest of the files and combine with rbind
-for (i in 2:length(csvlist_X)){
-  input<-read.csv(csvlist_X[i])
-  input$country <- "X" 
-  input$dayofYear <- as.numeric(substr(csvlist_X[i], 8, 10)) 
-  inputX<-rbind(inputX, input)
-}  
-
-###countryY for loop
-setwd("/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/csvlist_Y/")
-
-# list the files in country X directory and assign to csvlist_X vector
-csvlistY <- list.files(pattern = ".csv")
-
-# add two columns to first csv file 
-inputY<-read.csv(csvlistY[1])
-inputY$country <- "Y" 
-inputY$dayofYear <- as.numeric(substr(csvlistY[1], 8, 10))
-
-# do a for loop for the rest of the files and combine with rbind
-for (i in 2:length(csvlistY)){
-  Yinput<-read.csv(csvlistY[i])
-  Yinput$country <- "Y" 
-  Yinput$dayofYear <- as.numeric(substr(csvlistY[i], 8, 10)) 
-  inputY<-rbind(inputY, Yinput)
-}  
-
-# (check this) Allowing user to remove or include NA columns, with or without warnings
-if (naOption == "remove") {
-  # Remove rows with NA's in any columns
-  data <- data[complete.cases(data),]
-} else if (naOption == "warn") {
-  # Check for NA's in the data and warn the user if they are present
-  if (any(is.na(data))) {
-    warning("Data contains NA values")
+compileData(directory = ,country = X)
+compileData(directory=, country=Y)
+#Compile
+compileData <- function(directory,country,naOption){
+  #setting directory variable while testing , delete when functions works
+  directory= setwd("/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/countryX")
+  country="X"
+  csvlist <- list.files(path=directory, pattern = ".csv")
+  csvlist
+  input<-read.csv(csvlist[1])
+  input$country <-  country
+  input$dayofYear <- as.numeric(substr(csvlist[1], 8, 10))
+  
+  for (i in 2:length(csvlist)){
+    inputloop<-read.csv(csvlist[i])
+    inputloop$country <- country 
+    inputloop$dayofYear <- as.numeric(substr(csvlist[i], 8, 10)) 
+    input=rbind(input,inputloop)
+  }  
+  if (naOption == "remove") {
+    # Remove rows with NA's in any columns
+    input <- input[-is.na(input),]
+  } else if (naOption == "warn") {
+    # Check for NA's in the data and warn the user if they are present
+    if (any(is.na(input))) {
+      warning("Data contains NA values")
+    }
+  } else if (naOption == "include") {
+    # Do nothing - include NA's in the data without warning the user
+  } else {
+    # Invalid option - raise an error
+    stop("Invalid value for naOption parameter")
   }
-} else if (naOption == "include") {
-  # Do nothing - include NA's in the data without warning the user
-} else {
-  # Invalid option - raise an error
-  stop("Invalid value for naOption parameter")
+  write.csv(input, paste0("country",country,"_alldata.csv"), row.names = F)
+  
 }
 
-# Return the compiled data frame
-return(data)
 
 # how user uses function
 # compiledData <- compileData("path/to/directory", "remove")
@@ -91,10 +75,7 @@ return(data)
     # "warn" for including NA's but showing a warning message
     # "include" for including NA's without a warning
 
-### Combine x and y csv lists
-allData.csv<-rbind(inputY, inputX)
-setwd("/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/")
-write.csv(allData.csv, "allData.csv", row.names = F)
+
 
 #Script 2: analyzing script, source("supportingFunctions.R")
 
@@ -102,6 +83,56 @@ write.csv(allData.csv, "allData.csv", row.names = F)
   # number of screens run, percent of patients screened that were infected, 
   # male vs. female patients, and the age distribution of patients.
 
+#percentage male, percentage female, percentage positive, percentage negative, age distribution
+summarydata<-read.csv(<path>)
+summarizedCompileData(data=summarydata)
+summarizedCompileData <- function(data){
+#directions
+  #know number of male and female patients
+  #adjust for female 
+  sum(input$gender == "male")
+  #percentage
+  sum(input$gender == "female")
+  #percentage
+ 
+   #number of infected patients
+      #sum each row, loop through and see if 1 or greater than 1, then positive
+  
+  # Load the data from the CSV file
+  dataforSum <- read.csv("path/to/your/file.csv")
+  
+  # Use the apply function to sum the values in each row
+  sums <- apply(dataforSum, 1, sum)
+  
+  # Print the resulting vector of row sums
+  print(sums)
+  
+  # Use a for loop to iterate over the vector of row sums
+  for (s in sums) {
+    # Check whether the sum of the values in the row is 1 or greater than 1
+    if (s >= 1) {
+      # Print a message if the sum is 1 or greater than 1
+      print("The sum of the values in this row is 1 or greater than 1.")
+    }
+  }
+  
+  
+#visualize age distribution 
+  # Load the ggplot2 package
+  library(ggplot2)
+  
+  # Load the data from the CSV file
+  dataforAge <- read.csv("/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/countryX/_alldata.csv")
+  
+  # Create the histogram using the ggplot function and the geom_histogram function
+  ggplot(dataforAge, aes(x = input$age)) +
+    geom_histogram(binwidth = 1) +
+    xlab("Age") +
+    ylab("Number of people")
+  
+  
+  
+  
 import allData.csv
 
 def summarize_data(allData.csv)
