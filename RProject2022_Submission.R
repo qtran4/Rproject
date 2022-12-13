@@ -11,6 +11,8 @@
 dir.create ("/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/csvlist_Y/")
 setwd("/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/countryY")
 filelist = list.files(pattern = ".txt")
+
+txt2csv <- function(filelist)
 for (i in 1:length(filelist)){
   input<-filelist[i]
   output<-gsub("txt","csv",input)
@@ -83,13 +85,21 @@ compileData <- function(directory,country,naOption){
   # number of screens run, percent of patients screened that were infected, 
   # male vs. female patients, and the age distribution of patients.
 
+
 #percentage male, percentage female, percentage positive, percentage negative, age distribution
 summarydata<-read.csv(<path>)
 summarizedCompileData(data=summarydata)
 summarizedCompileData <- function(data){
 #directions
+  
+  #number of screens run
+  # read the CSV file into a data frame
+  df <- read.csv("_alldata.csv")
+  
+  # find the number of rows in the data frame
+  nrow(df)
+  
   #know number of male and female patients
-  #adjust for female 
   sum(input$gender == "male")
   #percentage
   sum(input$gender == "female")
