@@ -73,8 +73,8 @@ total.cases.Y <- 0
 for (i in 1:nrow(countryY.df)){
   if(check_infected(i,countryY.df) == T){ 
     total.cases.Y <- total.cases.Y +1
-  }
-}
+  }}
+
 x.markers.pct <- numeric(10)
 y.markers.pct <- numeric(10)
 x.markers.pct[1] <- sum(countryX.df[,"marker01"] == "1") / total.cases.X
