@@ -9,7 +9,11 @@
 
 #.txt -> .csv substitute
 dir.create ("/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/csvlist_Y/")
+
 setwd("/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/countryY")
+#??OR
+txt2csv(directory="/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/countryY")
+
 filelist = list.files(pattern = ".txt")
 
 txt2csv <- function(filelist)
@@ -38,6 +42,7 @@ compileData(directory=, country=Y)
 compileData <- function(directory,country,naOption){
   #setting directory variable while testing , delete when functions works
   directory= setwd("/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/countryX")
+  #??how do I put the country y in the country x file
   country="X"
   csvlist <- list.files(path=directory, pattern = ".csv")
   csvlist
@@ -87,32 +92,26 @@ compileData <- function(directory,country,naOption){
 
 
 #percentage male, percentage female, percentage positive, percentage negative, age distribution
-summarydata<-read.csv(<path>)
+summarydata<-read.csv("/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/countryX/_alldata.csv")
 summarizedCompileData(data=summarydata)
 summarizedCompileData <- function(data){
 #directions
   
-  #number of screens run
-  # read the CSV file into a data frame
-  df <- read.csv("_alldata.csv")
-  
   # find the number of rows in the data frame
-  nrow(df)
+  nrow(summarydata)
   
   #know number of male and female patients
-  sum(input$gender == "male")
+  sum(summarydata$gender == "male")
   #percentage
-  sum(input$gender == "female")
+  sum(summarydata$gender == "female")
   #percentage
  
    #number of infected patients
       #sum each row, loop through and see if 1 or greater than 1, then positive
   
-  # Load the data from the CSV file
-  dataforSum <- read.csv("path/to/your/file.csv")
-  
+
   # Use the apply function to sum the values in each row
-  sums <- apply(dataforSum, 1, sum)
+  sums <- apply(summarydata, 1, data)
   
   # Print the resulting vector of row sums
   print(sums)
@@ -122,9 +121,26 @@ summarizedCompileData <- function(data){
     # Check whether the sum of the values in the row is 1 or greater than 1
     if (s >= 1) {
       # Print a message if the sum is 1 or greater than 1
-      print("The sum of the values in this row is 1 or greater than 1.")
+      print("Infected")
+  #??how to assign this to a variable I can use for the percentage?
     }
   }
+ #### 
+  # function to summarize a data set in terms of percentage of patients screened that were infected
+  summarize_percent_infected <- function(data) {
+    # calculate the total number of patients screened
+    total_patients <- nrow(data)
+    
+    # calculate the number of infected patients
+    infected_patients <- sum(data$infected)
+    
+    # calculate the percentage of patients that were infected
+    percent_infected <- (infected_patients / total_patients) * 100
+    
+    # return the percentage of infected patients
+    return(percent_infected)
+  }
+  ####
   
   
 #visualize age distribution 
