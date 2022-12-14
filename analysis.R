@@ -25,7 +25,7 @@ write.csv(subPatient,"subPatient.csv",row.names = F)
 
 dnp <- data.frame(matrix(NA,0,3))
 colnames(dnp) <- c("dayofYear","patientNumber","country")
-countryXdays<- unique(compileFile$dayofYear[which(compileFile$country=="X")]) # days with patients in X country
+countryXdays<- unique(compileFile$dayofYear[which(compileFile$country=="X")]) 
 countryYdays <- unique(compileFile$dayofYear[which(compileFile$country=="Y")])
 setdiff(countryXdays,countryYdays) 
 # subset country and day once and patients another time
