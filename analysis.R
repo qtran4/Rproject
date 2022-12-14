@@ -17,8 +17,7 @@ write.csv(finalcompiledCSV,"compiled_sharma_version.csv", row.names = F)
 
 # summarize the compiled data set
 compileFile <- read.csv("compiled_sharma_version.csv")
-subPatient <- sumdata(compileFile) # sum and subset 
-# the summary of the age distribution of patients is shown in console. 
+subPatient <- sumdata(compileFile)
 write.csv(subPatient,"subPatient.csv",row.names = F) 
 # it takes time to load those data, so to make things easy we write the csv file
 # and save it on directory
