@@ -22,9 +22,9 @@ txtTOcsv <- function(path, sf){
 #in any column without a warning. 
 
 
-#first argument includes the path or directory that contains all the files
-#needed to compile. Second argument would be for NAs
-#using gsub function to grab the number that are in each file name. 
+# first argument includes the path or directory that contains all the files
+# needed to compile. Second argument would be for NAs
+# using gsub function to grab the number that are in each file name. 
 compile_csv <- function(path, warnNA){
   FILES <- list.files(path,pattern = ".csv") 
   comFile <- data.frame(matrix(NA,0,14))
