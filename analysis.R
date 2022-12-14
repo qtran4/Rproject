@@ -1,8 +1,9 @@
 
 getwd()
-
 source("supportingFunction.R")
 setwd("/Users/pujasharma/Documents/Phd_data/Rproject")
+
+
 # converts all .txt files in "countryY" into .csv format.####
 txtTOcsv("countryY", "")
 
@@ -25,8 +26,8 @@ write.csv(subPatient,"subPatient.csv",row.names = F)
 
 dnp <- data.frame(matrix(NA,0,3))
 colnames(dnp) <- c("dayofYear","patientNumber","country")
-countryXdays<- unique(compileFile$dayofYear[which(compileFile$country=="countryX")]) # days with patients in X country
-countryYdays <- unique(compileFile$dayofYear[which(compileFile$country=="countryY")])
+countryXdays<- unique(compileFile$dayofYear[which(compileFile$country=="X")]) # days with patients in X country
+countryYdays <- unique(compileFile$dayofYear[which(compileFile$country=="Y")])
 setdiff(countryXdays,countryYdays) 
 # subset country and day once and patients another time
 for(i in 1:length(countryXdays)){
@@ -34,8 +35,9 @@ for(i in 1:length(countryXdays)){
   countryXPatient <- compileFile[which(compileFile$dayofYear==countryXdays[i]&compileFile$country=="X"),]
   numcountryXPatient<- countryXPatient[which(rowSums(countryXPatient[,3:12])>0),] 
   dnp[i,2] <- nrow(numcountryXPatient)
-  dnp[i,3] <- "countryX"
+  dnp[i,3] <- "X"
 }
+
 nrow(dnp) 
 #subset country and day once and patients another time
 for(i in 1:length(countryYdays)){
@@ -43,12 +45,8 @@ for(i in 1:length(countryYdays)){
   countryYPatient <- compileFile[which(compileFile$dayofYear==countryYdays[i]&compileFile$country=="Y"),] 
   numcountryYPatient<- countryYPatient[which(rowSums(countryYPatient[,3:12])>0),] 
   dnp[i+56,2] <- nrow(numcountryYPatient) 
-  dnp[i+56,3] <- "countryY"
+  dnp[i+56,3] <- "Y"
 }
-
-head(dnp)
-head(numcountryYPatient)
-head(YPat)
 
 
 #First plot: Plot1
@@ -60,6 +58,7 @@ Plot1 <- ggplot(data=dnp, aes(x = dayofYear, y = patientNumber, group = country,
   geom_point()+
  theme_light()
 Plot1
+ggsave("Plot1.pdf")
 
 # #dnp include data set with day, number of patient (cumulative sum with column 
 # name totalPatient) and country.
@@ -75,12 +74,12 @@ Plot2 <- ggplot(data=dnp, aes(x = dayofYear, y = totalPatient, group = country, 
   xlab("Day of Year")+
   ylab("Total number of patient")
 Plot2
-
+ggsave("Plot2.pdf")
 # 1. In which country (X or Y) did the disease outbreak likely begin?
 #ANSWER: 
 # Based on above plots, the diseases has started earlier in the country X (approx. 
 # from the 122 days), whereas the diseases has diagnosed a bit later on country Y
-# (approx. after 138 days). Thus, the disease outbrerak likely begin in country X.
+# (approx. after 138 days). Thus, the disease outbrerak likely to begin in country X.
 
 
 Markers <- data.frame(matrix(NA,20,3))
@@ -100,13 +99,13 @@ Plot3 <- ggplot(data = Markers, aes(x = marker, y = no.ofPatient, fill = country
   xlab("Markers")+
   scale_y_continuous(expand = c(0,0))
 Plot3
-  
+ggsave("Plot3.pdf")
 
 
-  # 2. If Country Y develops a vaccine for the disease, is it likely to work for
+# 2. If Country Y develops a vaccine for the disease, is it likely to work for
 # citizens of Country X?
 # ANSWER: From the above graph, we can see that marker 1-marker4 are mostly present
-# in country X, whereas marker 6 to 10 are present in abundance in country Y. Not same 
+# in country X, whereas marker 6 to 10 are present in abundance in country Y. Not same
 # vaccine will work for both countries if we need to eradicated the disease completely.
 # If both countries had same marker, a vaccine develoved by country Y could have eradicated
 # the disease even in country X.

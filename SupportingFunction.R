@@ -57,16 +57,18 @@ compile_csv <- function(path, warnNA){
       print("There is no any NAs in the data")
     }
   }else if(warnNA != "Delete"&warnNA != "NoWarn"&warnNA != "Warning"){
-    print("Something wrong in second variable")
+    print("Something wrong in second variable (related to NAs)")
   }
   return(comFile)
 }
 
-
+# Write a function to summarize the compiled data set in terms of number of screens
+# run, percent of patients screened that were infected, male vs. female patients,
+# and the age distribution of patients.
 
 sumdata <- function(file){
   
-  print("The number of screens run is:")
+  print("Number of screens run")
   print(nrow(file))
   
   subPatient <- data.frame(matrix(NA,0,14))
@@ -81,11 +83,10 @@ sumdata <- function(file){
   print("Patients diagnosed as infected is(%): ")
   pata <- nrow(subPatient)/nrow(file)
   print(pata)
-  print("Percentage of male and female patients")
+  print("Percentage of male vs. female patients")
   patb <- nrow(subPatient[which(subPatient$gender=="male"),])/nrow(subPatient[which(subPatient$gender=="female"),])
   print(patb)
-  # the age distribution of patients
-  print("Age distribution of patient")
+  print("Age distribution of patients")
   print(summary(subPatient$age))
   return(subPatient) 
 }
