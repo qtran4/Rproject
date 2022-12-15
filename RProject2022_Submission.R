@@ -11,8 +11,6 @@
 dir.create ("/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/csvlist_Y/")
 
 setwd("/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/countryY")
-#??OR
-txt2csv(directory="/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/countryY")
 
 filelist = list.files(pattern = ".txt")
 
@@ -26,7 +24,7 @@ for (i in 1:length(filelist)){
   setwd("/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/countryY")
   
 }
-
+txt2csv(directory="/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/countryY")
 
 # compile data from all .csv files in a directory into a single .csv file
 #same columns, also add "country" and "dayofYear" columns.
@@ -92,7 +90,7 @@ compileData <- function(directory,country,naOption){
 
 
 #percentage male, percentage female, percentage positive, percentage negative, age distribution
-summarydata<-read.csv("/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/countryX/_alldata.csv")
+summarydata<-read.csv("./alldata.csv")
 summarizedCompileData(data=summarydata)
 summarizedCompileData <- function(data){
 #directions
@@ -192,8 +190,119 @@ print('Percent of patients screened that were infected:', 100 * num_infected / n
 print('Number of male patients:', num_male)
 print('Number of female patients:', num_female)
 print('Age distribution of patients:', age_distribution)
+#---
+#my attempts to messwith it
+#Script 2: analyzing script, source("supportingFunctions.R")
+# Write a function to summarize the compiled data set in terms of
+# number of screens run, percent of patients screened that were infected, 
+# male vs. female patients, and the age distribution of patients.
 
-
+#percentage male, percentage female, percentage positive, percentage negative, age distribution
+summarydata<-read.csv("./alldata.csv")
+removed_strange_ages<-data[data$age <110,]
+summarizedCompileData <- function(data){
+  cat("Summarized Data")
+  
+  #number of screens run
+  cat("\nNumber of Screens Run:",nrow(data))
+  
+  #number of infected or healthy patients; removed ages that were likely errors
+  removed_strange_ages<-data[data$age <110,]
+  sick<-subset(removed_strange_ages, marker01!=0 | marker02!=0 |marker03!=0 |marker04!=0 |marker05!=0 |marker06!=0 |marker07!=0 |marker08!=0 | marker09!=0 |marker10!=0)
+  healthy<-subset(removed_strange_ages, marker01!=1 & marker02!=1 & marker03!=1 & marker04!=1 & marker05!=1 & marker06!=1 & marker07!=1 & marker08!=1 & marker09!=1 & marker10!=1)
+  cat("\nNumber of Positive Screenings:",nrow(sick))
+   
+  #percentages
+  cat("\n\nPercentage of screenings that were positive:",(nrow(sick)/nrow(removed_strange_ages))*100,"%")
+  cat("\nPercentage of positive screens that were male:",((nrow(subset(sick, gender=="male")))/nrow(sick)*100),"%")
+  cat("\n\nPercentage of positive screens that were female:",((nrow(subset(sick, gender=="female")))/nrow(sick)*100),"%")
+  cat("\nPercentage of screenings that were negative:",(nrow(healthy)/nrow(removed_strange_ages))*100,"%")
+ 
+  #visualize age distribution 
+  # Load the ggplot2 package
+  library(ggplot2)
+  # Create the histogram using the ggplot function and the geom_histogram function
+  ggplot(sick, aes(x =age)) +
+  geom_histogram(binwidth = 10, center = 5, color="white") +
+    xlab("Age Groups") +
+    ylab("Number of People Infected") +
+    xlim(0,120) +
+    ggtitle("Age Distribution by Sex of Patients")+
+    facet_grid(.~gender)+
+    scale_x_continuous(breaks =seq(0,120,10)) +
+    theme_bw()+
+    scale_y_continuous(breaks =seq(0,15000,1250))
+}
+summarizedCompileData(data=summarydata)
+  #### 
+  # function to summarize a data set in terms of percentage of patients screened that were infected
+  summarize_percent_infected <- function(data) {
+    # calculate the total number of patients screened
+    total_patients <- nrow(data)
+    
+    # calculate the number of infected patients
+    infected_patients <- sum(data$infected)
+    
+    # calculate the percentage of patients that were infected
+    percent_infected <- (infected_patients / total_patients) * 100
+    
+    # return the percentage of infected patients
+    return(percent_infected)
+  }
+  ####
+  
+  
+  #visualize age distribution 
+  # Load the ggplot2 package
+  library(ggplot2)
+  
+  # Load the data from the CSV file
+  dataforAge <- read.csv("./alldata.csv")
+  
+  # Create the histogram using the ggplot function and the geom_histogram function
+  ggplot(dataforAge, aes(x = input$age)) +
+  geom_histogram(binwidth = 10, center = 5) +
+    xlab("Age Groups") +
+    ylab("Number of People Infected") +
+    xlim(0,120) +
+    scale_x_continuous(breaks =seq(0,120,10)) +
+    scale_y_continuous(breaks =seq(0,15000,1250))
+  
+  
+  import allData.csv
+  
+  def summarize_data(allData.csv)
+  num_screens = 0
+  num_infected = 0
+  num_male = 0
+  num_female = 0
+  age_distribution = {}
+  
+  with open(allData.csv, 'r') as csvfile:
+    reader = csv.reader(allData.csv)
+  # Skip the header row
+  next(reader)
+  for row in reader:
+    num_screens += 1
+  if row[1] == 'Yes':
+    num_infected += 1
+  if row[2] == 'Male':
+    num_male += 1
+  elif row[2] == 'Female':
+    num_female += 1
+  
+  # Count the number of patients in each age group
+  age = int(row[3])
+  if age not in age_distribution:
+    age_distribution[age] = 0
+  age_distribution[age] += 1
+  
+  print('Number of screens run:', num_screens)
+  print('Percent of patients screened that were infected:', 100 * num_infected / num_screens)
+  print('Number of male patients:', num_male)
+  print('Number of female patients:', num_female)
+  print('Age distribution of patients:', age_distribution)
+#------------
 
 
 
