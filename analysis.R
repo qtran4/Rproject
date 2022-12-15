@@ -39,12 +39,12 @@ countryY_infections_day <- aggregate(countryY_data$infected~countryY_data$dayofY
 all_data_infections_day <- aggregate(all_data_compiled$infected, list(all_data_compiled$dayofYear, all_data_compiled$country), FUN=sum) #create aggregated infections table by country and day of year
 colnames(all_data_infections_day) <- c('Day', 'Country', 'Sum')
 
-ggplot() + #plot line plot of daily infections by country across the days of the year given
-  geom_line(data = countryX_infections_day, aes(x = `countryX_data$dayofYear`, y = sum, color = 'Country X')) + 
-  geom_line(data = countryY_infections_day, aes(x = `countryY_data$dayofYear`, y = sum, color = 'Country Y')) +
-  xlab('Day of Year') + 
-  ylab('Number of Infections Per Day') + 
-  ggtitle('Infections Per Day by Country')
+# ggplot() + #plot line plot of daily infections by country across the days of the year given
+#   geom_line(data = countryX_infections_day, aes(x = `countryX_data$dayofYear`, y = sum, color = 'Country X')) + 
+#   geom_line(data = countryY_infections_day, aes(x = `countryY_data$dayofYear`, y = sum, color = 'Country Y')) +
+#   xlab('Day of Year') + 
+#   ylab('Number of Infections Per Day') + 
+#   ggtitle('Infections Per Day by Country')
 
 ggplot() + #plot line plot of daily infections by country across the days of the year given, same plot as before just using total compiled data instead of both countries' data
   geom_line(data = all_data_infections_day, aes(x = Day, y = Sum, color = Country)) + 

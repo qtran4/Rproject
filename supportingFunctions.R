@@ -14,7 +14,7 @@ delim_convert <- function(directory_name){
 
 }
 
-compile_csv <- function(directory_name, NA_preference){
+compile_csv <- function(directory_name, NA_preference){ #three options for NA_preference are 'remove', 'warn', or putting nothing does nothing
   filenames <- list.files(path = paste0('./',directory_name), pattern = "\\.csv$") #grab all file names with .csv
   count = 120
   for (i in filenames){ #iteratre over all .csvs in directory
@@ -45,7 +45,7 @@ compile_csv <- function(directory_name, NA_preference){
 }
 
 
-summarize_compiled <- function(file_name, specific_country){ #include file name and if it is specific country data or all data
+summarize_compiled <- function(file_name, specific_country){ #include file name and if it is specific country data or all data this is done with simple 'yes' or 'no' for second argument
   
   if (specific_country == 'yes'){
     country_name <- file_name
