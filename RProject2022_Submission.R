@@ -8,25 +8,24 @@
 
 
 #.txt -> .csv substitute
-dir.create ("/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/csvlist_Y/")
 
 setwd("/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/countryY")
-#??OR
-txt2csv(directory="/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/countryY")
-
-filelist = list.files(pattern = ".txt")
-
-txt2csv <- function(filelist)
-for (i in 1:length(filelist)){
-  input<-filelist[i]
-  output<-gsub("txt","csv",input)
-  data = read.table(input, header = TRUE)   
-  setwd("/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/csvlist_Y/")
-  write.csv(data, file=output, row.names=FALSE)
-  setwd("/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/countryY")
-  
+dir.create ("/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/csvlist_Y/")
+txt2csv <- function(filelist){
+  filelist = list.files(pattern = ".txt")
+  for (i in 1:length(filelist)){
+    input<-filelist[i]
+    output<-gsub("txt","csv",input)
+    data = read.table(input, header = TRUE)   
+    setwd("/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/csvlist_Y/")
+    write.csv(data, file=output, row.names=FALSE)
+    setwd("/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/countryY")
+    
+  } 
 }
+  
 
+#####txt2csv(directory="/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/countryY", input)
 
 # compile data from all .csv files in a directory into a single .csv file
 #same columns, also add "country" and "dayofYear" columns.
@@ -36,26 +35,40 @@ for (i in 1:length(filelist)){
 #Path directory
 setwd("/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/")
 
-compileData(directory = ,country = X)
+compileData(directory = "/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/",country = X)
 compileData(directory=, country=Y)
 #Compile
 compileData <- function(directory,country,naOption){
   #setting directory variable while testing , delete when functions works
   directory= setwd("/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/countryX")
-  #??how do I put the country y in the country x file
   country="X"
   csvlist <- list.files(path=directory, pattern = ".csv")
-  csvlist
-  input<-read.csv(csvlist[1])
-  input$country <-  country
-  input$dayofYear <- as.numeric(substr(csvlist[1], 8, 10))
+  inputX<-read.csv(csvlist[1])
+  inputX$country <-  country
+  inputX$dayofYear <- as.numeric(substr(csvlist[1], 8, 10))
   
   for (i in 2:length(csvlist)){
-    inputloop<-read.csv(csvlist[i])
-    inputloop$country <- country 
-    inputloop$dayofYear <- as.numeric(substr(csvlist[i], 8, 10)) 
-    input=rbind(input,inputloop)
+    inputloopX<-read.csv(csvlist[i])
+    inputloopX$country <- country 
+    inputloopX$dayofYear <- as.numeric(substr(csvlist[i], 8, 10)) 
+    inputX=rbind(inputX,inputloopX)
   }  
+  #setting directory variable while testing , delete when functions works
+  directory= setwd("/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/csvlist_Y")
+  country="Y"
+  csvlistY <- list.files(path=directory, pattern = ".csv")
+  inputY<-read.csv(csvlistY[1])
+  inputY$country <-  country
+  inputY$dayofYear <- as.numeric(substr(csvlist[1], 8, 10))
+  
+  for (i in 2:length(csvlist)){
+    inputloopY<-read.csv(csvlist[i])
+    inputloopY$country <- country 
+    inputloopY$dayofYear <- as.numeric(substr(csvlist[i], 8, 10)) 
+    inputY=rbind(inputY,inputloopY)
+  }  
+  input=rbind(inputY,inputX)
+  
   if (naOption == "remove") {
     # Remove rows with NA's in any columns
     input <- input[-is.na(input),]
@@ -143,18 +156,45 @@ summarizedCompileData <- function(data){
   ####
   
   
-#visualize age distribution 
+  
+ #Age distribution histogram of patients (this goes is supportingFunctions.R script)
+  #Reading in data
+  allData<-read.csv(file = "allData.csv", header = TRUE)
+  
+  #The data had strangely high ages that were likely errors; this corrects them
+  removed_strange_ages<-allData[allData$age <120,]
+  
+  #finding entries with a marker present
+  sick<-subset(removed_strange_ages, marker01!=0 | marker02!=0 |marker03!=0 |marker04!=0 |marker05!=0 |marker06!=0 |marker07!=0 |marker08!=0 | marker09!=0 |marker10!=0)
+  
+  #visualize age distribution 
+  
   # Load the ggplot2 package
   library(ggplot2)
-  
-  # Load the data from the CSV file
-  dataforAge <- read.csv("/Users/avivalund/Desktop/Biocomputing/FinalProject/RProject/countryX/_alldata.csv")
+  ggplot()
   
   # Create the histogram using the ggplot function and the geom_histogram function
-  ggplot(dataforAge, aes(x = input$age)) +
-    geom_histogram(binwidth = 1) +
-    xlab("Age") +
-    ylab("Number of people")
+  ggplot(sick, aes(x = sick$age)) +
+    geom_histogram(binwidth = 10, center = 5) +
+    xlab("Age Groups") +
+    ylab("Number of People Infected") +
+    xlim(0,120) +
+    scale_x_continuous(breaks =seq(0,120,10)) +
+    scale_y_continuous(breaks =seq(0,15000,1250)) 
+  
+  #analysis.R script
+  
+  #create source path to supportingFunctions.R script
+  source("C:/Users/natal/Desktop/shell-lesson-data/shell-lesson-data/RProject/RProject2022_Submission.R")
+  
+  #Load functions in supportingFunctions.R file
+  source("RProject2022_Submission.R")
+  
+  #Compile all data into single CSV by calling function
+  compiledData()
+  
+  
+  #Process data 
   
   
   
