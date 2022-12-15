@@ -17,17 +17,20 @@ write.csv(finalcompiledCSV,"compiled_sharma_version.csv", row.names = F)
 
 # summarize the compiled data set
 compileFile <- read.csv("compiled_sharma_version.csv")
-subPatient <- sumdata(compileFile)
+subPatient <- sumdata(compileFile)#screen run is 39888
 write.csv(subPatient,"subPatient.csv",row.names = F) 
-# it takes time to load those data, so to make things easy we write the csv file
+# it takes time to load those data since the screen run is too large, so to make things easy we write the csv file
 # and save it on directory
 
-
+#dataframe with columns day of year, number of patients and country
 dnp <- data.frame(matrix(NA,0,3))
 colnames(dnp) <- c("dayofYear","patientNumber","country")
+# filter the days from country X
 countryXdays<- unique(compileFile$dayofYear[which(compileFile$country=="X")]) 
+# filter the days from country Y
 countryYdays <- unique(compileFile$dayofYear[which(compileFile$country=="Y")])
-setdiff(countryXdays,countryYdays) 
+
+setdiff(countryXdays,countryYdays) # find all values in countryXdays that do not occur in countryYdays
 # subset country and day once and patients another time
 for(i in 1:length(countryXdays)){
   dnp[i,1] <- countryXdays[i] 
@@ -109,5 +112,11 @@ ggsave("Plot3.pdf")
 # If both countries had same marker, a vaccine develoved by country Y could have eradicated
 # the disease even in country X.
 
-
+####SOME ANSWERS FROM 3rd FUNCTION####
+# kind of summary
+# Number of screens run is 39888, which can be seen in console.
+# Patients diagnosed as infected is 0.57 %.
+# Percentage of male vs. female patients is 1.002
+# Age distribution of patients is minimum=1 year, maximum=423 year with median and mean 8 and 12.72, respectively
+# The maximum age range of 423 years seems weird to me!!
 
