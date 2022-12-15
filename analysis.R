@@ -4,15 +4,16 @@ setwd("/Users/elias/Downloads/Rproject")
 #Initialize ggplot2
 library(ggplot2)
 
+#Accesses supporting functions
 source("supportingFunctions.R")
 
 #covnerts all .txt files into comma delimited .csv files for countryY
 convertDelimiter("countryY")
 
 
-#Compiles the CSV data for each country into a file allData.csv for future analysis
-compileCSV("countryY")
-compileCSV("countryX")
+#Compiles the CSV data for each country into a file allData.csv for future analysis with NAs removed
+compileCSV("countryY", "removeNA")
+compileCSV("countryX", "removeNA")
 
 #In which country (X or Y) did the disease outbreak likely begin?
 #The first infection for country Y is 139
